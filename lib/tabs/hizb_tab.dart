@@ -7,7 +7,7 @@ class HizbTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      child: Text('surah',
+      child: Text('hizb',
         style: GoogleFonts.poppins(
           color : const Color(0xFFF9B091),
         ),),

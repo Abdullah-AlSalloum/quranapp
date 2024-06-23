@@ -19,7 +19,7 @@ TabBar _tab() {
       indicatorWeight: 3,
       tabs: [
         _tabItem(label: 'Surah'),
-        _tabItem(label: 'Para'),
+        _tabItem(label: "Juz'"),
         _tabItem(label: 'Page'),
         _tabItem(label: 'Hizb'),
       ]);
@@ -119,7 +119,7 @@ Column _greeting() {
         height: 4,
       ),
       Text(
-        'Abdullah Al Salloum',
+        "Qur'an Recitation with AI",
         style: GoogleFonts.poppins(
             fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
       ),
@@ -222,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 24,
             ),
             Text(
-              'Quran App',
+              "Qur'an App",
               style: GoogleFonts.inter(
                   textStyle: const TextStyle(
                       fontSize: 20,

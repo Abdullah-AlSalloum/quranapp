@@ -20,7 +20,7 @@ class SplashScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Quran App',
+                    "Qur'an App",
                     style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

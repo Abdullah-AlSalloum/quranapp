@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final surahResponseModel = surahResponseModelFromJson(jsonString);
-
 import 'dart:convert';
 
 SurahResponseModel surahResponseModelFromJson(String str) =>
