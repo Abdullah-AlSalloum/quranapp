@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:quranapp/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quranapp/models/QuranApiService.dart';
+import 'package:quranapp/models/quran_api_service.dart';
 import 'package:quranapp/models/Surah_en_response_model.dart';
 import 'package:quranapp/models/Surah_response_model.dart';
 import 'package:quranapp/models/bookmark_model.dart';
@@ -95,13 +95,13 @@ class _detailscreenState extends State<DetailScreen> {
     player.setReleaseMode(ReleaseMode.stop);
     _initStreams();
     super.initState();
-    QuranApiService.fetchQuranArabicInfo(widget.surahNumber).then((arabicInfo) {
+    quran_api_service.fetchQuranArabicInfo(widget.surahNumber).then((arabicInfo) {
       setState(() {
         surahArinfo = arabicInfo;
       });
     });
 
-    QuranApiService.fetchQuranEnglishInfo(widget.surahNumber)
+    quran_api_service.fetchQuranEnglishInfo(widget.surahNumber)
         .then((englishInfo) {
       setState(() {
         surahEninfo = englishInfo;

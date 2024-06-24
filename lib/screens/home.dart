@@ -1,7 +1,4 @@
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-// import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quranapp/colors.dart';
@@ -10,19 +7,21 @@ import 'package:quranapp/tabs/hizb_tab.dart';
 import 'package:quranapp/tabs/page_tab.dart';
 import 'package:quranapp/tabs/para_tab.dart';
 import 'package:quranapp/tabs/surah_tab.dart';
+import 'package:quranapp/models/search_screen.dart';
 
 TabBar _tab() {
   return TabBar(
-      unselectedLabelColor: text,
-      labelColor: Colors.white,
-      indicatorColor: primary,
-      indicatorWeight: 3,
-      tabs: [
-        _tabItem(label: 'Surah'),
-        _tabItem(label: "Juz'"),
-        _tabItem(label: 'Page'),
-        _tabItem(label: 'Hizb'),
-      ]);
+    unselectedLabelColor: text,
+    labelColor: Colors.white,
+    indicatorColor: primary,
+    indicatorWeight: 3,
+    tabs: [
+      _tabItem(label: 'Surah'),
+      _tabItem(label: "Juz'"),
+      _tabItem(label: 'Page'),
+      _tabItem(label: 'Hizb'),
+    ],
+  );
 }
 
 Tab _tabItem({required String label}) => Tab(
@@ -34,31 +33,31 @@ Tab _tabItem({required String label}) => Tab(
         ),
       ),
     );
+
 Stack _lastRoad() {
   return Stack(
     children: [
       Container(
         height: 131,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFFDF98FA),
-                  Color(0xFFB070FD),
-                  Color(0xFF9055FF),
-                ],
-                stops: [
-                  0,
-                  .6,
-                  1
-                ])),
+          borderRadius: BorderRadius.circular(10),
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFFDF98FA),
+              Color(0xFFB070FD),
+              Color(0xFF9055FF),
+            ],
+            stops: [0, .6, 1],
+          ),
+        ),
       ),
       Positioned(
-          bottom: 0,
-          right: 0,
-          child: SvgPicture.asset('assets/svgs/quran.svg')),
+        bottom: 0,
+        right: 0,
+        child: SvgPicture.asset('assets/svgs/quran.svg'),
+      ),
       Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -67,9 +66,7 @@ Stack _lastRoad() {
             Row(
               children: [
                 SvgPicture.asset('assets/svgs/book.svg'),
-                const SizedBox(
-                  width: 8,
-                ),
+                const SizedBox(width: 8),
                 Text(
                   'Last Read',
                   style: GoogleFonts.poppins(
@@ -88,9 +85,7 @@ Stack _lastRoad() {
                 fontSize: 18,
               ),
             ),
-            const SizedBox(
-              height: 4,
-            ),
+            const SizedBox(height: 4),
             Text(
               'Verse No : 1',
               style: GoogleFonts.poppins(
@@ -99,7 +94,7 @@ Stack _lastRoad() {
             ),
           ],
         ),
-      )
+      ),
     ],
   );
 }
@@ -111,17 +106,19 @@ Column _greeting() {
       Text(
         'Alsalamualekum',
         style: GoogleFonts.poppins(
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            color: const Color(0xFFA19CC5)),
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
+          color: const Color(0xFFA19CC5),
+        ),
       ),
-      const SizedBox(
-        height: 4,
-      ),
+      const SizedBox(height: 4),
       Text(
         "Qur'an Recitation with AI",
         style: GoogleFonts.poppins(
-            fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
       ),
       const SizedBox(height: 24),
       _lastRoad(),
@@ -135,26 +132,30 @@ Widget home() {
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                SliverToBoxAdapter(
-                  child: _greeting(),
-                ),
-                SliverAppBar(
-                  pinned: true,
-                  automaticallyImplyLeading: false,
-                  backgroundColor: background,
-                  shape: Border(
-                      bottom: BorderSide(
-                    width: 3,
-                    color: const Color(0xFFAAAAAA).withOpacity(.1),
-                  )),
-                  bottom: PreferredSize(
-                      preferredSize: const Size.fromHeight(0), child: _tab()),
-                )
-              ],
-          body: const TabBarView(
-            children: [SurahTab(), ParaTab(), PageTab(), HizbTab()],
-          )),
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverToBoxAdapter(
+            child: _greeting(),
+          ),
+          SliverAppBar(
+            pinned: true,
+            automaticallyImplyLeading: false,
+            backgroundColor: background,
+            shape: Border(
+              bottom: BorderSide(
+                width: 3,
+                color: const Color(0xFFAAAAAA).withOpacity(.1),
+              ),
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: _tab(),
+            ),
+          ),
+        ],
+        body: const TabBarView(
+          children: [SurahTab(), ParaTab(), PageTab(), HizbTab()],
+        ),
+      ),
     ),
   );
 }
@@ -216,23 +217,30 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Row(
           children: [
             IconButton(
-                onPressed: () {},
-                icon: SvgPicture.asset('assets/svgs/menu-icon.svg')),
-            const SizedBox(
-              width: 24,
+              onPressed: () {},
+              icon: SvgPicture.asset('assets/svgs/menu-icon.svg'),
             ),
+            const SizedBox(width: 24),
             Text(
               "Qur'an App",
               style: GoogleFonts.inter(
-                  textStyle: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white)),
+                textStyle: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
             ),
             const Spacer(),
             IconButton(
-                onPressed: () {},
-                icon: SvgPicture.asset('assets/svgs/search-icon.svg')),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SearchScreen()),
+                );
+              },
+              icon: SvgPicture.asset('assets/svgs/search-icon.svg'),
+            ),
           ],
         ),
       );
@@ -249,21 +257,21 @@ class _HomeScreenState extends State<HomeScreen> {
           _bottomBarItem(icon: 'assets/svgs/lamp-icon.svg', label: 'Tips'),
           _bottomBarItem(icon: 'assets/svgs/pray-icon.svg', label: 'Prayer'),
           _bottomBarItem(icon: 'assets/svgs/doa-icon.svg', label: 'Doa'),
-          _bottomBarItem(
-              icon: 'assets/svgs/bookmark-icon.svg', label: 'Bookmark'),
+          _bottomBarItem(icon: 'assets/svgs/bookmark-icon.svg', label: 'Bookmark'),
         ],
       );
 
   BottomNavigationBarItem _bottomBarItem(
           {required String icon, required String label}) =>
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            icon,
-            color: text,
-          ),
-          activeIcon: SvgPicture.asset(
-            icon,
-            color: primary,
-          ),
-          label: label);
+        icon: SvgPicture.asset(
+          icon,
+          color: text,
+        ),
+        activeIcon: SvgPicture.asset(
+          icon,
+          color: primary,
+        ),
+        label: label,
+      );
 }

@@ -89,7 +89,7 @@ class AyahEn {
   int? page;
   int? ruku;
   int? hizbQuarter;
-  bool? sajda;
+  dynamic sajda;
 
   AyahEn({
     this.number,
@@ -112,8 +112,8 @@ class AyahEn {
         page: json["page"],
         ruku: json["ruku"],
         hizbQuarter: json["hizbQuarter"],
-        sajda: json["sajda"],
-      );
+        sajda : json["sajda"],
+        );
 
   Map<String, dynamic> toJson() => {
         "number": number,

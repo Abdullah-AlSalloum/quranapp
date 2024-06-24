@@ -1,9 +1,11 @@
+//include the Material Design package provided by Flutter
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../colors.dart';
 import 'package:quranapp/screens/home.dart';
 
+//once it is created, its properties cannot change
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 

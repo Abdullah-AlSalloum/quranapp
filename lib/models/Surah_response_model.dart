@@ -29,6 +29,8 @@ class SurahResponseModel {
         "status": status,
         "data": data?.toJson(),
       };
+
+  where(bool Function(dynamic surah) param0) {}
 }
 
 class Data {
@@ -91,7 +93,7 @@ class Ayah {
   int? page;
   int? ruku;
   int? hizbQuarter;
-  bool? sajda;
+  dynamic sajda;
 
   Ayah({
     this.number,
