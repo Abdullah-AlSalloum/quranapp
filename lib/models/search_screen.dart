@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:quranapp/colors.dart';
 import 'package:quranapp/models/quran_api_service.dart';
-import 'package:quranapp/models/Surah_response_model.dart';
+import 'package:quranapp/models/Surah_en_response_model.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  const SearchScreen({super.key});
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -35,11 +36,12 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: background,
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Color.fromARGB(255, 120, 23, 189),
         title: TextField(
           onChanged: _searchSurahs,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Search Surahs...',
             border: InputBorder.none,
             hintStyle: TextStyle(color: Colors.white),
@@ -48,7 +50,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: _surahs.length,
               itemBuilder: (context, index) {

@@ -3,13 +3,13 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:quranapp/colors.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:quranapp/models/quran_api_service.dart';
-import 'package:quranapp/models/Surah_en_response_model.dart';
-import 'package:quranapp/models/Surah_response_model.dart';
-import 'package:quranapp/models/bookmark_model.dart';
-import 'package:quranapp/models/bookmark_provider.dart';
+import 'package:quranapp/colors.dart'; // Import custom colors
+import 'package:google_fonts/google_fonts.dart'; // Import Google Fonts package
+import 'package:quranapp/models/quran_api_service.dart'; // Import Quran API service
+import 'package:quranapp/models/Surah_en_response_model.dart'; // Import Surah English response model
+import 'package:quranapp/models/Surah_response_model.dart'; // Import Surah response model
+import 'package:quranapp/models/bookmark_model.dart'; // Import bookmark model
+import 'package:quranapp/models/bookmark_provider.dart'; // Import bookmark provider
 
 class DetailScreen extends StatefulWidget {
   final String nameOfSurah;
@@ -17,29 +17,35 @@ class DetailScreen extends StatefulWidget {
   final String numberOfAyahs;
   final String revelationType;
   final String surahNumber;
-  const DetailScreen(
-      {super.key,
-      required this.nameOfSurah,
-      required this.TranslatedNsme,
-      required this.numberOfAyahs,
-      required this.revelationType,
-      required this.surahNumber});
+
+  const DetailScreen({
+    super.key,
+    required this.nameOfSurah,
+    required this.TranslatedNsme,
+    required this.numberOfAyahs,
+    required this.revelationType,
+    required this.surahNumber,
+  });
 
   @override
   State<DetailScreen> createState() => _detailscreenState();
 }
 
+// ignore: camel_case_types
 class _detailscreenState extends State<DetailScreen> {
-  SurahResponseModel? surahArinfo;
-  SurahEnResponseModel? surahEninfo;
-  late AudioPlayer player = AudioPlayer();
-  PlayerState? _playerState;
-  int? _ayahid;
-  bool isAudioLoading = false;
-  bool get _isPlaying => _playerState == PlayerState.playing;
-  StreamSubscription? _playerCompleteSubscription;
-  StreamSubscription? _playerStateChangeSubscription;
+  SurahResponseModel? surahArinfo; // Model for Surah Arabic info
+  SurahEnResponseModel? surahEninfo; // Model for Surah English info
+  late AudioPlayer player = AudioPlayer(); // Audio player instance
+  PlayerState? _playerState; // Current player state (playing, paused, stopped)
+  int? _ayahid; // ID of current Ayah being played
+  bool isAudioLoading = false; // Indicates if audio is currently loading
 
+  bool get _isPlaying => _playerState == PlayerState.playing; // Check if player is currently playing
+
+  StreamSubscription? _playerCompleteSubscription; // Subscription for player completion events
+  StreamSubscription? _playerStateChangeSubscription; // Subscription for player state change events
+
+  // Initialize player streams
   void _initStreams() {
     _playerCompleteSubscription = player.onPlayerComplete.listen((event) {
       setState(() {
@@ -56,6 +62,7 @@ class _detailscreenState extends State<DetailScreen> {
     });
   }
 
+  // Play audio for a specific Ayah
   Future<void> _play(Ayah? ayah) async {
     setState(() {
       isAudioLoading = true;
@@ -68,6 +75,7 @@ class _detailscreenState extends State<DetailScreen> {
     });
   }
 
+  // Play entire Surah audio
   Future<void> _playSura() async {
     setState(() {
       isAudioLoading = true;
@@ -81,6 +89,7 @@ class _detailscreenState extends State<DetailScreen> {
     });
   }
 
+  // Stop audio playback
   Future<void> _stop() async {
     await player.stop();
     setState(() {
@@ -91,10 +100,12 @@ class _detailscreenState extends State<DetailScreen> {
 
   @override
   void initState() {
+    super.initState();
     player = AudioPlayer();
     player.setReleaseMode(ReleaseMode.stop);
     _initStreams();
-    super.initState();
+
+    // Fetch Surah information (Arabic and English) asynchronously
     quran_api_service.fetchQuranArabicInfo(widget.surahNumber).then((arabicInfo) {
       setState(() {
         surahArinfo = arabicInfo;
@@ -121,36 +132,38 @@ class _detailscreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: background,
-        appBar: _appBar(),
-        body: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-            SliverToBoxAdapter(
-              child: _details(),
-            )
-          ],
-          body: surahArinfo == null || surahEninfo == null
-              ? const Center(
-                  child:
-                      CircularProgressIndicator()) // Show loading indicator while data is being fetched
-              : ListView.builder(
-                  itemCount: surahArinfo!.data!.ayahs!.length,
-                  itemBuilder: (context, index) {
-                    final arabicAyah =
-                        surahArinfo!.data!.ayahs![index].text.toString();
-                    final englishAyah =
-                        surahEninfo!.data!.ayahs![index].text.toString();
-                    final ayahNumber = index + 1;
-                    return _ayatItem(
-                        arabicAyah: arabicAyah,
-                        englishAyah: englishAyah,
-                        ayahNumber: ayahNumber,
-                        ayah: surahArinfo!.data!.ayahs![index]);
-                  },
-                ),
-        ));
+      backgroundColor: background, // Set background color
+      appBar: _appBar(), // Display custom app bar
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverToBoxAdapter(
+            child: _details(), // Display details section in a sliver
+          )
+        ],
+        body: surahArinfo == null || surahEninfo == null
+            ? const Center(
+                child:
+                    CircularProgressIndicator()) // Show loading indicator while data is being fetched
+            : ListView.builder(
+                itemCount: surahArinfo!.data!.ayahs!.length,
+                itemBuilder: (context, index) {
+                  final arabicAyah =
+                      surahArinfo!.data!.ayahs![index].text.toString();
+                  final englishAyah =
+                      surahEninfo!.data!.ayahs![index].text.toString();
+                  final ayahNumber = index + 1;
+                  return _ayatItem(
+                      arabicAyah: arabicAyah,
+                      englishAyah: englishAyah,
+                      ayahNumber: ayahNumber,
+                      ayah: surahArinfo!.data!.ayahs![index]);
+                },
+              ),
+      ),
+    );
   }
 
+  // Widget for displaying each Ayah item
   Widget _ayatItem({
     required String arabicAyah,
     required String englishAyah,
@@ -165,7 +178,7 @@ class _detailscreenState extends State<DetailScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
-                color: gray,
+                color: gray, // Use custom gray color
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
@@ -174,7 +187,7 @@ class _detailscreenState extends State<DetailScreen> {
                     width: 27,
                     height: 27,
                     decoration: BoxDecoration(
-                      color: primary,
+                      color: primary, // Use custom primary color
                       borderRadius: BorderRadius.circular(27 / 2),
                     ),
                     child: Center(
@@ -282,7 +295,7 @@ class _detailscreenState extends State<DetailScreen> {
             Text(
               englishAyah,
               style: GoogleFonts.poppins(
-                color: text,
+                color: text, // Use custom text color
                 fontSize: 16,
               ),
             ),
@@ -290,6 +303,7 @@ class _detailscreenState extends State<DetailScreen> {
         ),
       );
 
+  // Widget for displaying details section of Surah
   Widget _details() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Stack(children: [
@@ -437,22 +451,23 @@ class _detailscreenState extends State<DetailScreen> {
         ]),
       );
 
+  // Widget for the custom AppBar
   AppBar _appBar() {
     return AppBar(
-      backgroundColor: background,
+      backgroundColor: background, // Use custom background color
       automaticallyImplyLeading: false,
       title: Row(
         children: [
           IconButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Navigate back when back button is pressed
               },
-              icon: SvgPicture.asset('assets/svgs/back-icon.svg')),
+              icon: SvgPicture.asset('assets/svgs/back-icon.svg')), // Back button icon
           const SizedBox(
             width: 24,
           ),
           Text(
-            widget.nameOfSurah,
+            widget.nameOfSurah, // Display Surah name in AppBar title
             style: GoogleFonts.inter(
                 textStyle: const TextStyle(
                     fontSize: 20,
@@ -462,7 +477,7 @@ class _detailscreenState extends State<DetailScreen> {
           const Spacer(),
           IconButton(
               onPressed: () {},
-              icon: SvgPicture.asset('assets/svgs/search-icon.svg')),
+              icon: SvgPicture.asset('assets/svgs/search-icon.svg')), // Search icon button
         ],
       ),
     );
